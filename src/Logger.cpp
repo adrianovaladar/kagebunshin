@@ -11,16 +11,16 @@ std::string sourceToString(std::source_location const source) {
 }
 
 void Logger::log(const std::string &text, LOGLEVEL level, std::source_location const source) {
-    std::stringstream ss;
-    ss << directoryName << "/log_";
     std::lock_guard<std::mutex> lock(mutex);
     auto now = std::chrono::system_clock::now();
     std::time_t nowTime = std::chrono::system_clock::to_time_t(now);
     std::tm now_tm{};
-    localtime_r(&nowTime, &now_tm);                            // Fill now_tm with local time
-    char buffer[20];                                           // Sufficient size for the format
-    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", &now_tm);// strftime is thread-safe
-    ss << buffer << ".txt";
-    std::ofstream file{ss.str(), std::ofstream::app};
+    localtime_r(&nowTime, &now_tm);
+    std::ofstream file{logFileName, std::ofstream::app};
     file << "[" << static_cast<char>(level) << "] " << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S") << " | " << sourceToString(source) << " | " << text << std::endl;
+    file.close();
+}
+
+const std::string &Logger::getLogFileName() const {
+    return logFileName;
 }

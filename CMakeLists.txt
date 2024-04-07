@@ -7,3 +7,6 @@ add_executable(kagebunshin
         src/main.cpp
         src/Logger.cpp
         src/Logger.h)
+
+# Add tests
+add_subdirectory(tests)
