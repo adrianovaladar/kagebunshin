@@ -8,29 +8,50 @@
 #include <mutex>
 #include <source_location>
 #include <string>
-
+/**
+ * @brief Enumeration for log levels.
+ */
 enum class LOGLEVEL : char {
-    Info = 'I',
-    Warning = 'W',
-    Error = 'E'
+    Info = 'I',    /**< Informational message. */
+    Warning = 'W', /**< Warning message. */
+    Error = 'E'    /**< Error message. */
 };
 
+/**
+ * @brief Meyer’s Singleton class for logging messages.
+ */
 class Logger {
 public:
+    /**
+     * @brief Get the singleton instance of Logger.
+     * @return Reference to the Logger instance.
+     */
     static Logger &getInstance() {
         static Logger instance;// Static local variable ensures lazy initialization and thread safety
         return instance;
     }
     Logger(const Logger &) = delete;           // Disable copy constructor
     Logger &operator=(const Logger &) = delete;// Disable copy assignment operator
+    /**
+      * @brief Log a message.
+      * @param text The text of the log message.
+      * @param level The log level.
+      * @param source The source location of the log message.
+     */
     void log(const std::string &text, LOGLEVEL level, std::source_location source = std::source_location::current());
+    /**
+     * @brief Get the file name of the log file.
+     * @return The file name of the log file.
+     */
     [[nodiscard]] const std::string &getLogFileName() const;
 private:
-    std::mutex mutex;
-    std::string logFileName;
-    std::atomic<bool> errorReported;
-    std::ofstream file;
-    // Private constructor to prevent instantiation from outside
+    std::mutex mutex;                /**< Mutex for thread safety. */
+    std::string logFileName;         /**< File name of the log file. */
+    std::atomic<bool> errorReported; /**< Atomic boolean flag indicating whether an error has been reported. */
+    std::ofstream file;              /**< Output file stream for logging. */
+    /**
+     * @brief Private constructor to prevent instantiation from outside.
+     */
     Logger() : errorReported(false) {
         std::string directoryName = "logs";
         if (!std::filesystem::exists(directoryName) && !std::filesystem::is_directory(directoryName)) {
@@ -50,6 +71,9 @@ private:
             errorReported.exchange(true);
         }
     }
+    /**
+     * @brief Destructor to close the log file.
+     */
     ~Logger() {
         if (file.is_open())
             file.close();
