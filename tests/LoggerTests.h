@@ -2,25 +2,35 @@
 #define KAGEBUNSHIN_LOGGERTESTS_H
 
 #include "../src/Logger.h"
+#include <fstream>
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 // Define a test fixture class
-class LoggerTest : public ::testing::Test {
+class LoggerTests : public ::testing::Test {
 public:
-    LoggerTest() : logger(Logger::getInstance()) {}
+    LoggerTests() : logger(Logger::getInstance()) {}
 
 protected:
+    std::ifstream logFile;
+    Logger &logger;
     // Set up common data or objects before each test case
     void SetUp() override {
         // Initialize any resources needed for testing
+        logFile.open(logger.getLogFileName());
+        if (!logFile.is_open()) {
+            // Handle error: Failed to open log file
+            // You might want to fail the test or log a message
+            FAIL() << "Failed to open log file: " << logger.getLogFileName();
+        }
     }
 
     // Clean up after each test case
     void TearDown() override {
         // Release any resources allocated during testing
+        logFile.close();
     }
 
-    Logger &logger;
 };
 
 

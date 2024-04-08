@@ -1,7 +1,10 @@
 #ifndef KAGEBUNSHIN_LOGGER_H
 #define KAGEBUNSHIN_LOGGER_H
 
+#include <atomic>
 #include <filesystem>
+#include <fstream>
+#include <iostream>
 #include <mutex>
 #include <source_location>
 #include <string>
@@ -22,12 +25,13 @@ public:
     Logger &operator=(const Logger &) = delete;// Disable copy assignment operator
     void log(const std::string &text, LOGLEVEL level, std::source_location source = std::source_location::current());
     [[nodiscard]] const std::string &getLogFileName() const;
-
 private:
     std::mutex mutex;
     std::string logFileName;
+    std::atomic<bool> errorReported;
+    std::ofstream file;
     // Private constructor to prevent instantiation from outside
-    Logger() {
+    Logger() : errorReported(false) {
         std::string directoryName = "logs";
         if (!std::filesystem::exists(directoryName) && !std::filesystem::is_directory(directoryName)) {
             std::filesystem::create_directory(directoryName);
@@ -40,6 +44,15 @@ private:
         char buffer[20];
         std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", &now_tm);
         logFileName += std::string(buffer) + ".txt";
+        file.open(logFileName, std::ofstream::app);
+        if (!file.is_open()) {
+            std::cerr << "Failed to open to log file: " << logFileName << std::endl;
+            errorReported.exchange(true);
+        }
+    }
+    ~Logger() {
+        if (file.is_open())
+            file.close();
     }
 };
 
