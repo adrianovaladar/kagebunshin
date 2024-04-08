@@ -3,7 +3,6 @@
 
 #include "../src/Logger.h"
 #include <fstream>
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 // Define a test fixture class
