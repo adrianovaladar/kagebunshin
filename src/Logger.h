@@ -43,11 +43,12 @@ public:
      * @brief Get the file name of the log file.
      * @return The file name of the log file.
      */
-    [[nodiscard]] const std::string &getLogFileName() const;
+    const std::filesystem::path &getLogFileName() const;
+
 private:
     std::mutex mutex;                /**< Mutex for thread safety. */
-    std::string logFileName;         /**< File name of the log file. */
-    std::atomic<bool> errorReported; /**< Atomic boolean flag indicating whether an error has been reported. */
+    std::filesystem::path logFileName;      /**< File name of the log file. */
+    std::atomic<bool> errorReported{false}; /**< Atomic boolean flag indicating whether an error has been reported. */
     std::ofstream file;              /**< Output file stream for logging. */
     /**
      * @brief Private constructor to prevent instantiation from outside.
@@ -74,11 +75,15 @@ private:
     /**
      * @brief Destructor to close the log file.
      */
-    ~Logger() {
-        if (file.is_open())
-            file.close();
-    }
+    virtual ~Logger() = default;
 };
+/**
+ * @brief Global logger instance.
+ *
+ * This global variable provides access to the singleton instance of the Logger class.
+ * It can be used throughout the code.
+ */
+inline Logger &logger = Logger::getInstance();
 
 
 #endif//KAGEBUNSHIN_LOGGER_H

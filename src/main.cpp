@@ -3,13 +3,13 @@
 #include <iostream>
 #include <stack>
 
-#define NUMBER_ARGUMENTS 2
+const int numberArguments = 2;
 
 int main(int argc, char **argv) {
     try {
         std::string directoryToSearch;
-        if (argc != NUMBER_ARGUMENTS)
-            throw std::runtime_error("Number of arguments should be equal to " + std::to_string(NUMBER_ARGUMENTS));
+        if (argc != numberArguments)
+            throw std::runtime_error("Number of arguments should be equal to " + std::to_string(numberArguments));
         directoryToSearch = argv[1];
         std::stack<std::string> fileNames;
         for (const auto &entry: std::filesystem::recursive_directory_iterator(directoryToSearch)) {

@@ -8,11 +8,10 @@
 // Define a test fixture class
 class LoggerTests : public ::testing::Test {
 public:
-    LoggerTests() : logger(Logger::getInstance()) {}
+    LoggerTests() = default;
 
 protected:
     std::ifstream logFile;
-    Logger &logger;
     // Set up common data or objects before each test case
     void SetUp() override {
         // Initialize any resources needed for testing
