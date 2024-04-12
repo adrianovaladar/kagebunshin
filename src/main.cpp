@@ -1,21 +1,25 @@
+#include "TextFinder.h"
 #include <filesystem>
-#include <fstream>
 #include <iostream>
-#include <stack>
 
-const int numberArguments = 2;
+const int numberArguments = 3;
+
+class InvalidArgumentException : public std::runtime_error {
+public:
+    explicit InvalidArgumentException(const std::string &message)
+        : std::runtime_error(message) {}
+};
 
 int main(int argc, char **argv) {
     try {
-        std::string directoryToSearch;
-        if (argc != numberArguments)
-            throw std::runtime_error("Number of arguments should be equal to " + std::to_string(numberArguments));
-        directoryToSearch = argv[1];
-        std::stack<std::string> fileNames;
-        for (const auto &entry: std::filesystem::recursive_directory_iterator(directoryToSearch)) {
-            std::cout << entry.path() << std::endl;
-            fileNames.push(entry.path());
-        }
+        std::filesystem::path directory;
+        if (argc < numberArguments)
+            throw InvalidArgumentException("Minimum number of arguments is " + std::to_string(numberArguments));
+        directory = argv[1];
+        std::vector<std::string> words;
+        for (int i{2}; i < argc; i++)
+            words.emplace_back(argv[i]);
+        TextFinder tf(std::move(directory), std::move(words));
     } catch (const std::exception &e) {
         std::cout << "Exception: " << e.what() << std::endl;
     }
