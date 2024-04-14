@@ -8,7 +8,9 @@ add_executable(kagebunshin
         src/Logger.cpp
         src/Logger.h
         src/TextFinder.cpp
-        src/TextFinder.h)
+        src/TextFinder.h
+        src/ThreadPool.cpp
+        src/ThreadPool.h)
 
 # Add tests
 add_subdirectory(tests)

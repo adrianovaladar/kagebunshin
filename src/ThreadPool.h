@@ -1,0 +1,9 @@
+#ifndef KAGEBUNSHIN_THREADPOOL_H
+#define KAGEBUNSHIN_THREADPOOL_H
+
+
+class ThreadPool {
+};
+
+
+#endif//KAGEBUNSHIN_THREADPOOL_H
