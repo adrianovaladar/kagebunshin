@@ -20,6 +20,7 @@ int main(int argc, char **argv) {
         for (int i{2}; i < argc; i++)
             words.emplace_back(argv[i]);
         TextFinder tf(std::move(directory), std::move(words));
+        tf.find();
     } catch (const std::exception &e) {
         std::cout << "Exception: " << e.what() << std::endl;
     }
