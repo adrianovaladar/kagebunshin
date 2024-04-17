@@ -10,7 +10,9 @@ add_executable(kagebunshin
         src/TextFinder.cpp
         src/TextFinder.h
         src/ThreadPool.cpp
-        src/ThreadPool.h)
+        src/ThreadPool.h
+        src/ConcurrentQueue.h
+)
 
 # Add tests
 add_subdirectory(tests)
