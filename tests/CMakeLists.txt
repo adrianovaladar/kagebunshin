@@ -1,5 +1,8 @@
 add_executable(AllTests LoggerTests.cpp LoggerTests.h
-        main.cpp ../src/Logger.h ../src/Logger.cpp)
+        ../src/Logger.h ../src/Logger.cpp
+        ConcurrentQueueTests.cpp ConcurrentQueueTests.h
+        ../src/ConcurrentQueue.h
+        main.cpp)
 include(FetchContent)
 FetchContent_Declare(
         googletest
