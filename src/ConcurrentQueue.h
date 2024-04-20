@@ -17,6 +17,8 @@ class ConcurrentQueue {
     std::mutex mutex;                          /**< Mutex to synchronize access to the queue. */
     std::queue<T> queue;                       /**< The queue managed by this class. */
     std::condition_variable conditionVariable; /**< Condition variable for waiting on empty queue. */
+    bool stop{};
+
 public:
     /**
      * @brief Default constructor.
@@ -41,11 +43,29 @@ public:
      *
      * @param value Reference to store the popped value.
      */
-    void pop(T &value) {
+    bool pop(T &value) {
         std::unique_lock<std::mutex> lg(mutex);
-        conditionVariable.wait(lg, [this] { return !queue.empty(); });// Wait until the queue is not empty.
+        conditionVariable.wait(lg, [this] { return !queue.empty() || stop; });// Wait until the queue is not empty or stop is true.
+        if (stop)
+            return false;
         value = queue.front();
         queue.pop();
+        return true;
+    }
+    /**
+     * @brief Terminates the queue operations.
+     *
+     * This function waits until the queue becomes empty and then sets the stop flag,
+     * signaling to stop all queue operations.
+     * After setting the stop flag, it notifies all waiting threads.
+     */
+    void terminate() {
+        while (!queue.empty()) {// Wait until the queue becomes empty
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+        std::unique_lock<std::mutex> lg(mutex);
+        stop = true;
+        conditionVariable.notify_all();
     }
     /**
      * @brief Returns a const reference to the queue.
