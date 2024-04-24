@@ -8,7 +8,7 @@ potentially compromise the security of our project, please report it to us throu
 To report a security vulnerability, please follow these steps:
 
 1. **Do not** disclose the vulnerability publicly until it has been addressed.
-2. Go to the [Issues](https://github.com/adrianovaladar/snake/issues) section of our GitHub repository.
+2. Go to the [Issues](https://github.com/adrianovaladar/kagebunshin/issues) section of our GitHub repository.
 3. Click on "New Issue" to create a new issue.
 4. Provide a clear description of the vulnerability and any relevant information to help us understand and reproduce it.
 5. If possible, provide steps to reproduce the vulnerability or a proof-of-concept (POC).
