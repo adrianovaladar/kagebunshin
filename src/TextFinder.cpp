@@ -7,6 +7,7 @@
 #include <stack>
 #include <stop_token>
 #include <utility>
+#include <memory>
 
 std::mutex mutex;
 
@@ -55,16 +56,17 @@ void TextFinder::find() {
             logger.log("Directory not found", LOGLEVEL::Error);
             throw DirectoryNotFoundException("Directory not found");
         }
-        std::stack<std::filesystem::path> files;
+        std::unique_ptr<std::stack<std::filesystem::path>> files(new std::stack<std::filesystem::path>);
         for (const auto &entry: std::filesystem::recursive_directory_iterator(directory)) {
             //std::cout << entry.path() << std::endl;
-            files.push(entry.path());
+            files->push(entry.path());
         }
         ThreadPool pool;
-        for(int i {}; i < files.size(); i++)
-        pool.submit([this, &files](){
-            this->findInFile(files);
-        });
+        for(int i {}; i < files->size(); i++) {
+            pool.submit([this, &files](){
+                this->findInFile((*files));
+            });
+        }
     } catch (const std::exception &e) {
         std::cout << "Exception: " << e.what() << std::endl;
     }
