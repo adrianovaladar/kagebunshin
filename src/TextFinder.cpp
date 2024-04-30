@@ -5,7 +5,6 @@
 #include <iostream>
 #include <mutex>
 #include <stack>
-#include <stop_token>
 #include <utility>
 #include <memory>
 
@@ -20,14 +19,15 @@ public:
 };
 
 void TextFinder::findInFile(std::stack<std::filesystem::path> &files) {
-    std::scoped_lock lock(mutex);
-    //std::cout << "Thread " << std::this_thread::get_id() << " processing task." << std::endl;
-    auto file = files.top();
-    files.pop();
+    std::filesystem::path file;
+    {
+        std::scoped_lock lock(mutex);
+        file = files.top();
+        //std::cout << "Thread " << std::this_thread::get_id() << " processing task." << std::endl;
+        files.pop();
+    }
     std::ifstream f;
     f.open(file, std::ifstream::in);
-    sleep(1);
-    mutex.unlock();
     bool found;
     if(!f.is_open()) {
         logger.log("Unable to open " + std::string(file), LOGLEVEL::Warning);
