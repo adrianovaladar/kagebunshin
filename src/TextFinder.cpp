@@ -72,3 +72,9 @@ void TextFinder::find() {
         std::cout << "Exception: " << e.what() << std::endl;
     }
 }
+
+void TextFinder::find(std::filesystem::path &&directoryToSearch, std::vector <std::string> &&wordsToSearch) {
+    directory = directoryToSearch;
+    words = wordsToSearch;
+    find();
+}

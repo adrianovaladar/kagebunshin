@@ -12,6 +12,7 @@ class TextFinder {
 public:
     explicit TextFinder(std::filesystem::path &&directoryToSearch, std::vector <std::string> &&wordsToSearch);
     void find();
+    void find(std::filesystem::path &&directoryToSearch, std::vector <std::string> &&wordsToSearch);
     void findInFile(std::stack<std::filesystem::path> &files);
 };
 
