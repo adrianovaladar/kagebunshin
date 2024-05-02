@@ -10,11 +10,15 @@
 
 std::mutex mutex;
 
-TextFinder::TextFinder(std::filesystem::path &&directoryToSearch, std::vector <std::string> &&wordsToSearch) : directory(std::move(directoryToSearch)), words(std::move(wordsToSearch)) {}
-
 class DirectoryNotFoundException : public std::runtime_error {
 public:
     explicit DirectoryNotFoundException(const std::string& message)
+        : std::runtime_error(message) {}
+};
+
+class EmptyWords : public std::runtime_error {
+public:
+    explicit EmptyWords(const std::string& message)
         : std::runtime_error(message) {}
 };
 
@@ -56,6 +60,10 @@ void TextFinder::find() {
         if (!std::filesystem::exists(directory)) {
             logger.log("Directory not found", LOGLEVEL::Error);
             throw DirectoryNotFoundException("Directory not found");
+        }
+        if (words.empty()) {
+            logger.log("No words to find were given", LOGLEVEL::Error);
+            throw EmptyWords("No words to find were given");
         }
         std::unique_ptr<std::stack<std::filesystem::path>> files(new std::stack<std::filesystem::path>);
         for (const auto &entry: std::filesystem::recursive_directory_iterator(directory)) {

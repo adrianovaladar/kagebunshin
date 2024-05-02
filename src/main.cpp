@@ -19,8 +19,8 @@ int main(int argc, char **argv) {
         std::vector<std::string> words;
         for (int i{2}; i < argc; i++)
             words.emplace_back(argv[i]);
-        TextFinder tf(std::move(directory), std::move(words));
-        tf.find();
+        TextFinder tf;
+        tf.find(std::move(directory), std::move(words));
     } catch (const std::exception &e) {
         std::cout << "Exception: " << e.what() << std::endl;
     }
