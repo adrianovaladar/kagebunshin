@@ -1,10 +1,20 @@
-add_executable(AllTests LoggerTests.cpp LoggerTests.h
-        ../src/Logger.h ../src/Logger.cpp
-        ConcurrentQueueTests.cpp ConcurrentQueueTests.h
+add_executable(AllTests
+        LoggerTests.cpp
+        LoggerTests.h
+        ../src/Logger.h
+        ../src/Logger.cpp
+        ConcurrentQueueTests.cpp
+        ConcurrentQueueTests.h
         ../src/ConcurrentQueue.h
         main.cpp
         ThreadPoolTests.cpp
-        ThreadPoolTests.h ../src/ThreadPool.cpp ../src/ThreadPool.h)
+        ThreadPoolTests.h
+        ../src/ThreadPool.cpp
+        ../src/ThreadPool.h
+        TextFinderTests.cpp
+        TextFinderTests.h
+        ../src/TextFinder.cpp
+        ../src/TextFinder.h)
 include(FetchContent)
 FetchContent_Declare(
         googletest

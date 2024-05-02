@@ -53,6 +53,7 @@ void TextFinder::findInFile(std::stack<std::filesystem::path> &files) {
     }
     logger.log("All words were found in " + std::string(file), LOGLEVEL::Info);
     std::cout << file << std::endl;
+    foundFiles.push(file);
 }
 
 void TextFinder::find() {
