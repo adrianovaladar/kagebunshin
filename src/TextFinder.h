@@ -10,12 +10,12 @@ class TextFinder {
     std::vector<std::string> words;
     std::stack <std::filesystem::path> foundFiles;
     void find();
+    void findInFile(std::stack<std::filesystem::path> &files);
 
 public:
     explicit TextFinder() = default;
     [[nodiscard]] std::stack<std::filesystem::path> getFoundFiles() const { return foundFiles; }
     void find(std::filesystem::path &&directoryToSearch, std::vector<std::string> &&wordsToSearch);
-    void findInFile(std::stack<std::filesystem::path> &files);
 };
 
 #endif//KAGEBUNSHIN_TEXTFINDER_H
