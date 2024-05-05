@@ -3,12 +3,9 @@
 #include "ThreadPool.h"
 #include <fstream>
 #include <iostream>
-#include <mutex>
 #include <stack>
 #include <utility>
 #include <memory>
-
-std::mutex mutex;
 
 class DirectoryNotFoundException : public std::runtime_error {
 public:

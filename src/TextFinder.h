@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <stack>
 #include <vector>
+#include <mutex>
 /**
  * @brief Class for finding text occurrences within files in a directory.
  */
@@ -11,6 +12,7 @@ class TextFinder {
     std::filesystem::path directory;/**< Directory to search.*/
     std::vector<std::string> words;/**< Words to search.*/
     std::stack <std::filesystem::path> foundFiles;/**< Stack that contains the files where the words were found.*/
+    std::mutex mutex;/**< Mutex to synchronize access to the stack. */
     /** @brief Find the words in the directory.
      */
     void find();
