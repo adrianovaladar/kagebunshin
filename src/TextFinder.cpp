@@ -4,7 +4,6 @@
 #include <fstream>
 #include <iostream>
 #include <stack>
-#include <utility>
 #include <memory>
 
 class DirectoryNotFoundException : public std::runtime_error {
