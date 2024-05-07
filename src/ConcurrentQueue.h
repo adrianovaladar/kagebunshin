@@ -32,7 +32,7 @@ public:
      * @param value The value to be pushed into the queue.
      */
     void push(T value) {
-        std::lock_guard<std::mutex> lg(mutex);
+        std::scoped_lock lg(mutex);
         queue.push(value);
         conditionVariable.notify_one();// Notify waiting threads about new data.
     }
@@ -44,7 +44,7 @@ public:
      * @param value Reference to store the popped value.
      */
     bool pop(T &value) {
-        std::unique_lock<std::mutex> lg(mutex);
+        std::unique_lock lg(mutex);
         conditionVariable.wait(lg, [this] { return !queue.empty() || stop; });// Wait until the queue is not empty or stop is true.
         if (stop)
             return false;
@@ -63,7 +63,7 @@ public:
         while (!queue.empty()) {// Wait until the queue becomes empty
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
-        std::unique_lock<std::mutex> lg(mutex);
+        std::unique_lock lg(mutex);
         stop = true;
         conditionVariable.notify_all();
     }
