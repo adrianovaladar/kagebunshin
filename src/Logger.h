@@ -53,22 +53,22 @@ private:
     /**
      * @brief Private constructor to prevent instantiation from outside.
      */
-    Logger() : errorReported(false) {
-        std::string directoryName = "logs";
+    Logger() {
+        std::filesystem::path directoryName = "logs";
         if (!std::filesystem::exists(directoryName) && !std::filesystem::is_directory(directoryName)) {
             std::filesystem::create_directory(directoryName);
         }
-        logFileName += directoryName + "/log_";
+        logFileName += directoryName / "log_";
         auto now = std::chrono::system_clock::now();
         std::time_t nowTime = std::chrono::system_clock::to_time_t(now);
         std::tm now_tm{};
         localtime_r(&nowTime, &now_tm);
-        char buffer[20];
-        std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", &now_tm);
-        logFileName += std::string(buffer) + ".txt";
+        std::stringstream ss;
+        ss << std::put_time(&now_tm, "%Y-%m-%d");
+        logFileName += ss.str() + ".txt";
         file.open(logFileName, std::ofstream::app);
         if (!file.is_open()) {
-            std::cerr << "Failed to open to log file: " << logFileName << std::endl;
+            std::cerr << "Failed to open log file: " << logFileName << std::endl;
             errorReported.exchange(true);
         }
     }
