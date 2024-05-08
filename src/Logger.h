@@ -46,10 +46,10 @@ public:
     const std::filesystem::path &getLogFileName() const;
 
 private:
-    std::mutex mutex;                /**< Mutex for thread safety. */
-    std::filesystem::path logFileName;      /**< File name of the log file. */
-    std::atomic<bool> errorReported{false}; /**< Atomic boolean flag indicating whether an error has been reported. */
-    std::ofstream file;              /**< Output file stream for logging. */
+    std::mutex mutex {};/**< Mutex for thread safety. */
+    std::filesystem::path logFileName;/**< File name of the log file. */
+    std::atomic<bool> errorReported{false};/**< Atomic boolean flag indicating whether an error has been reported. */
+    std::ofstream file;/**< Output file stream for logging. */
     /**
      * @brief Private constructor to prevent instantiation from outside.
      */
