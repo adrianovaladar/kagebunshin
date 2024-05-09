@@ -71,7 +71,9 @@ void TextFinder::find() {
                 this->findInFile((*files));
             });
         }
-    } catch (const std::exception &e) {
+    } catch (const DirectoryNotFoundException &e) {
+        std::cout << "Exception: " << e.what() << std::endl;
+    } catch (const EmptyWords &e) {
         std::cout << "Exception: " << e.what() << std::endl;
     }
 }
