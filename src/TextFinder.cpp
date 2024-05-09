@@ -62,12 +62,11 @@ void TextFinder::find() {
         }
         auto files = std::make_unique<std::stack<std::filesystem::path>>();
         for (const auto &entry: std::filesystem::recursive_directory_iterator(directory)) {
-            //std::cout << entry.path() << std::endl;
             files->push(entry.path());
         }
         ThreadPool pool;
         for(int i {}; i < files->size(); i++) {
-            pool.submit([this, &files]{
+            pool.submit([this, &files] {
                 this->findInFile(*files);
             });
         }
