@@ -60,7 +60,7 @@ void TextFinder::find() {
             logger.log("No words to find were given", LOGLEVEL::Error);
             throw EmptyWords("No words to find were given");
         }
-        std::unique_ptr<std::stack<std::filesystem::path>> files(new std::stack<std::filesystem::path>);
+        auto files = std::make_unique<std::stack<std::filesystem::path>>();
         for (const auto &entry: std::filesystem::recursive_directory_iterator(directory)) {
             //std::cout << entry.path() << std::endl;
             files->push(entry.path());
