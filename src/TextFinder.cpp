@@ -6,16 +6,14 @@
 #include <stack>
 #include <memory>
 
-class DirectoryNotFoundException : public std::runtime_error {
+class DirectoryNotFoundException final : public std::runtime_error {
 public:
-    explicit DirectoryNotFoundException(const std::string& message)
-        : std::runtime_error(message) {}
+    using std::runtime_error::runtime_error;
 };
 
-class EmptyWords : public std::runtime_error {
+class EmptyWords final: public std::runtime_error {
 public:
-    explicit EmptyWords(const std::string& message)
-        : std::runtime_error(message) {}
+    using std::runtime_error::runtime_error;
 };
 
 void TextFinder::findInFile(std::stack<std::filesystem::path> &files) {
