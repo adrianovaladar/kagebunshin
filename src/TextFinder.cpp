@@ -67,8 +67,8 @@ void TextFinder::find() {
         }
         ThreadPool pool;
         for(int i {}; i < files->size(); i++) {
-            pool.submit([this, &files](){
-                this->findInFile((*files));
+            pool.submit([this, &files]{
+                this->findInFile(*files);
             });
         }
     } catch (const DirectoryNotFoundException &e) {
