@@ -39,6 +39,10 @@ public:
      * @param f The function to be executed.
     */
     void submit(Func f);
+    ThreadPool(const ThreadPool &other) = delete;
+    ThreadPool(ThreadPool &&other) = delete;
+    ThreadPool &operator=(const ThreadPool &other) = delete;
+    ThreadPool &operator=(ThreadPool &&other) = delete;
 };
 
 
