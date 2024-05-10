@@ -12,7 +12,7 @@ class TextFinder {
     std::filesystem::path directory;/**< Directory to search.*/
     std::vector<std::string> words;/**< Words to search.*/
     std::stack <std::filesystem::path> foundFiles;/**< Stack that contains the files where the words were found.*/
-    std::mutex mutex;/**< Mutex to synchronize access to the stack. */
+    std::mutex mutex {};/**< Mutex to synchronize access to the stack. */
     /** @brief Find the words in the directory.
      */
     void find();
