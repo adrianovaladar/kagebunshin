@@ -11,6 +11,8 @@ void ThreadPool::worker() {
 }
 
 ThreadPool::ThreadPool(size_t numberThreads) {
+    if (numberThreads == 0)
+        numberThreads = 1;
     for (unsigned i = 0; i < numberThreads; i++)
         threads.emplace_back(&ThreadPool::worker, this);
 }
