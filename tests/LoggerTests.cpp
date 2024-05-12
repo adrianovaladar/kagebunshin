@@ -12,21 +12,19 @@ TEST_F(LoggerTests, LogMessageTest) {
 }
 
 TEST_F(LoggerTests, MultipleLogMessagesTest) {
-    int numberThreads{100};
-    std::thread threads[numberThreads];
+    std::array<std::thread, 100> threads;
     auto logMessage = [&]() {
         logger.log("Test multithreading message", LOGLEVEL::Info);
     };
-
-    for (int i{}; i < numberThreads; i++)
+    for (int i{}; i < threads.size(); i++)
         threads[i] = std::thread(logMessage);
-    for (int i{}; i < numberThreads; i++)
+    for (int i{}; i < threads.size(); i++)
         threads[i].join();
 
     std::stringstream buffer;
     buffer << logFile.rdbuf();
     std::string logContents = buffer.str();
 
-    for (int i{}; i < numberThreads; i++)
+    for (int i{}; i < threads.size(); i++)
         ASSERT_NE(std::string::npos, logContents.find("Test multithreading message"));
 }
