@@ -39,7 +39,7 @@ TEST_F(ConcurrentQueueTests, StressTest) {
     std::mutex mutex;
     auto pushPop = [&] {
         for (int i = 0; i < numElementsPerThread; i++) {
-            std::lock_guard<std::mutex> lock(mutex);
+            std::lock_guard lock(mutex);
             concurrentQueue.push(i);
             int value;
             concurrentQueue.pop(value);
