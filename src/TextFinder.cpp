@@ -19,7 +19,7 @@ public:
 void TextFinder::findInFile(std::stack<std::filesystem::path> &files) {
     std::filesystem::path file;
     {
-        std::scoped_lock lock(mutex);
+        std::scoped_lock lock(filesMutex);
         file = files.top();
         //std::cout << "Thread " << std::this_thread::get_id() << " processing task." << std::endl;
         files.pop();
@@ -47,6 +47,7 @@ void TextFinder::findInFile(std::stack<std::filesystem::path> &files) {
     }
     logger.log("All words were found in " + std::string(file), LOGLEVEL::Info);
     std::cout << file << std::endl;
+    std::scoped_lock lock(foundFilesMutex);
     foundFiles.push(file);
 }
 
