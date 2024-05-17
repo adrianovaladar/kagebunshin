@@ -12,14 +12,15 @@ public:
 
 protected:
     std::ifstream logFile;
+    Logger &loggerTests = Logger::getInstance();
     // Set up common data or objects before each test case
     void SetUp() override {
         // Initialize any resources needed for testing
-        logFile.open(logger.getLogFileName());
+        logFile.open(loggerTests.getLogFileName());
         if (!logFile.is_open()) {
             // Handle error: Failed to open log file
             // You might want to fail the test or log a message
-            FAIL() << "Failed to open log file: " << logger.getLogFileName();
+            FAIL() << "Failed to open log file: " << loggerTests.getLogFileName();
         }
     }
 

@@ -2,7 +2,7 @@
 #include <fstream>
 
 TEST_F(LoggerTests, LogMessageTest) {
-    logger.log("Test message", LOGLEVEL::Info);
+    loggerTests.log("Test message", LOGLEVEL::Info);
 
     std::stringstream buffer;
     buffer << logFile.rdbuf();
@@ -12,9 +12,10 @@ TEST_F(LoggerTests, LogMessageTest) {
 }
 
 TEST_F(LoggerTests, MultipleLogMessagesTest) {
-    std::array<std::thread, 100> threads;
+    constexpr int numberThreads{100};
+    std::array<std::thread, numberThreads> threads;
     auto logMessage = [&]() {
-        logger.log("Test multithreading message", LOGLEVEL::Info);
+        loggerTests.log("Test multithreading message", LOGLEVEL::Info);
     };
     for (int i{}; i < threads.size(); i++)
         threads[i] = std::thread(logMessage);
