@@ -13,6 +13,7 @@ void function(int number) {
 
 class ThreadPoolTests : public ::testing::Test {
 protected:
+    void singleTaskExecutionTest(size_t numberThreads) const;
     std::function<void()> functionWithArguments;
     std::ifstream logFile;
     int number{};

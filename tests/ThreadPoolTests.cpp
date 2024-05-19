@@ -1,7 +1,7 @@
 #include "ThreadPoolTests.h"
 
-TEST_F(ThreadPoolTests, SingleTaskExecutionTest) {
-    ThreadPool pool{1};
+void ThreadPoolTests::singleTaskExecutionTest(size_t numberThreads) const {
+    ThreadPool pool{numberThreads};
     pool.submit(functionWithArguments);
     sleep(1);
 
@@ -10,6 +10,14 @@ TEST_F(ThreadPoolTests, SingleTaskExecutionTest) {
     std::string logContents = buffer.str();
 
     ASSERT_NE(std::string::npos, logContents.find(hello) + number);
+}
+
+TEST_F(ThreadPoolTests, SingleTaskExecutionTestWithOneThread) {
+    singleTaskExecutionTest(1);
+}
+
+TEST_F(ThreadPoolTests, SingleTaskExecutionTestWithOneThreadButPassingZero) {
+    singleTaskExecutionTest(0);
 }
 
 TEST_F(ThreadPoolTests, ConcurrentTaskExecutionTest) {
