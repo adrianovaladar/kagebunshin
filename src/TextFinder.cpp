@@ -52,29 +52,23 @@ void TextFinder::findInFile(std::stack<std::filesystem::path> &files) {
 }
 
 void TextFinder::find() {
-    try {
-        if (!std::filesystem::exists(directory)) {
-            logger.log("Directory not found", LOGLEVEL::Error);
-            throw DirectoryNotFoundException("Directory not found");
-        }
-        if (words.empty()) {
-            logger.log("No words to find were given", LOGLEVEL::Error);
-            throw EmptyWords("No words to find were given");
-        }
-        auto files = std::make_unique<std::stack<std::filesystem::path>>();
-        for (const auto &entry: std::filesystem::recursive_directory_iterator(directory)) {
-            files->push(entry.path());
-        }
-        ThreadPool pool;
-        for(int i {}; i < files->size(); i++) {
-            pool.submit([this, &files] {
-                this->findInFile(*files);
-            });
-        }
-    } catch (const DirectoryNotFoundException &e) {
-        std::cout << "Exception: " << e.what() << std::endl;
-    } catch (const EmptyWords &e) {
-        std::cout << "Exception: " << e.what() << std::endl;
+    if (!std::filesystem::exists(directory)) {
+        logger.log("Directory not found", LOGLEVEL::Error);
+        throw DirectoryNotFoundException("Directory not found");
+    }
+    if (words.empty()) {
+        logger.log("No words to find were given", LOGLEVEL::Error);
+        throw EmptyWords("No words to find were given");
+    }
+    auto files = std::make_unique<std::stack<std::filesystem::path>>();
+    for (const auto &entry: std::filesystem::recursive_directory_iterator(directory)) {
+        files->push(entry.path());
+    }
+    ThreadPool pool;
+    for (int i{}; i < files->size(); i++) {
+        pool.submit([this, &files] {
+            this->findInFile(*files);
+        });
     }
 }
 

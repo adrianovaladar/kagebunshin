@@ -1,13 +1,11 @@
 #include "TextFinderTests.h"
 
 TEST_F(TextFinderTests, FindWithDirectoryThatDoesNotExist) {
-    tf.find("/directory/that/does/not/exist", {"text"});
-    ASSERT_EQ(tf.getFoundFiles().size(), 0);
+    EXPECT_ANY_THROW(tf.find("/directory/that/does/not/exist", {"text"}));
 }
 
 TEST_F(TextFinderTests, FindWithoutWords) {
-    tf.find(std::string(path), {});
-    ASSERT_EQ(tf.getFoundFiles().size(), 0);
+    EXPECT_ANY_THROW(tf.find(std::string(path), {}));
 }
 
 TEST_F(TextFinderTests, FindSuccessfully) {
