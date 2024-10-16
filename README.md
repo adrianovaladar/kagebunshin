@@ -39,4 +39,4 @@ Execute the following command:
 
 ## Creators
 
-This project was created by [**Adriano Valadar**](https://adrianovaladar.github.io).
+This project was created by [**Adriano Valadar**](https://github.com/adrianovaladar).
