@@ -34,7 +34,7 @@ jobs:
           ${{github.workspace}}/build/tests/AllTests
       - name: Collect coverage into one XML report
         run: |
-          gcovr --sonarqube > coverage.xml
+          gcovr --sonarqube --gcov-ignore-parse-errors > coverage.xml
       - name: Run sonar-scanner
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
