@@ -1,7 +1,7 @@
 #ifndef KAGEBUNSHIN_THREADPOOLTESTS_H
 #define KAGEBUNSHIN_THREADPOOLTESTS_H
 
-#include "../src/Logger.h"
+#include <logorithm/Logger.h>
 #include "../src/ThreadPool.h"
 #include <gtest/gtest.h>
 

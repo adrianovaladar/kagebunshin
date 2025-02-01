@@ -1,5 +1,5 @@
 #include "TextFinder.h"
-#include "Logger.h"
+#include <logorithm/Logger.h>
 #include "ThreadPool.h"
 #include <fstream>
 #include <iostream>

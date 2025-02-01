@@ -1,8 +1,4 @@
 add_executable(AllTests
-        LoggerTests.cpp
-        LoggerTests.h
-        ../src/Logger.h
-        ../src/Logger.cpp
         ConcurrentQueueTests.cpp
         ConcurrentQueueTests.h
         ../src/ConcurrentQueue.h
@@ -22,5 +18,11 @@ FetchContent_Declare(
 )
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_Declare(
+        LOGorithm
+        GIT_REPOSITORY https://github.com/adrianovaladar/LOGorithm.git
+        GIT_TAG main
+)
+FetchContent_MakeAvailable(LOGorithm)
 FetchContent_MakeAvailable(googletest)
-target_link_libraries(AllTests gtest gtest_main gmock_main)
+target_link_libraries(AllTests gtest gtest_main gmock_main LOGorithm)
