@@ -23,6 +23,7 @@ int main(int argc, char **argv) {
         tf.find(std::move(directory), std::move(words));
     } catch (const std::exception &e) {
         std::cout << "Exception: " << e.what() << std::endl;
+        ;
     }
     return 0;
 }
