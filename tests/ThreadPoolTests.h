@@ -4,6 +4,7 @@
 #include <logorithm/Logger.h>
 #include "../src/ThreadPool.h"
 #include <gtest/gtest.h>
+#include <fstream>
 
 const std::string hello{"Hello from function "};
 
