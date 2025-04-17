@@ -1,15 +1,16 @@
 #ifndef KAGEBUNSHIN_THREADPOOLTESTS_H
 #define KAGEBUNSHIN_THREADPOOLTESTS_H
 
-#include <logorithm/Logger.h>
 #include "../src/ThreadPool.h"
-#include <gtest/gtest.h>
+#include <logorithm/Logger.h>
+#include <format>
 #include <fstream>
+#include <gtest/gtest.h>
 
-const std::string hello{"Hello from function "};
+const std::string hello{"Hello from function"};
 
-void function(int number) {
-    logger.log(hello + std::to_string(number), LOGLEVEL::Info);
+inline void function(const int number) {
+    logger.log(std::format("{} {}", hello, number), LOGLEVEL::Info);
 }
 
 class ThreadPoolTests : public ::testing::Test {

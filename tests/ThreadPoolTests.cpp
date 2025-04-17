@@ -9,7 +9,7 @@ void ThreadPoolTests::singleTaskExecutionTest(size_t numberThreads) const {
     buffer << logFile.rdbuf();
     std::string logContents = buffer.str();
 
-    ASSERT_NE(std::string::npos, logContents.find(hello) + number);
+    ASSERT_NE(std::string::npos, logContents.find(std::format("{} {}", hello, number)));
 }
 
 TEST_F(ThreadPoolTests, SingleTaskExecutionTestWithOneThread) {
@@ -21,7 +21,7 @@ TEST_F(ThreadPoolTests, SingleTaskExecutionTestWithOneThreadButPassingZero) {
 }
 
 TEST_F(ThreadPoolTests, ConcurrentTaskExecutionTest) {
-    int numberTimes{10};
+    constexpr int numberTimes{10};
     int count{};
     ThreadPool pool{10};
     for (int i{}; i < numberTimes; i++) {
@@ -38,14 +38,14 @@ TEST_F(ThreadPoolTests, ConcurrentTaskExecutionTest) {
         std::stringstream buffer;
         buffer << logFile.rdbuf();
         std::string logContents = buffer.str();
-        ASSERT_NE(std::string::npos, logContents.find(hello + std::to_string(number)));
+        ASSERT_NE(std::string::npos, logContents.find(std::format("{} {}", hello, number)));
         number--;
     }
     ASSERT_EQ(count, numberTimes);
 }
 
 TEST(ThreadPoolTest, SubmitAndExecuteTasks) {
-    int numberTimes{10};
+    constexpr int numberTimes{10};
     ThreadPool pool{4};
     int sum{};
     for (int i{}; i < numberTimes; ++i) {
