@@ -1,15 +1,16 @@
 #include "ThreadPoolTests.h"
 
-void ThreadPoolTests::singleTaskExecutionTest(size_t numberThreads) const {
+void ThreadPoolTests::singleTaskExecutionTest(size_t numberThreads) {
     ThreadPool pool{numberThreads};
     pool.submit(functionWithArguments);
     sleep(1);
 
+    file.seekg(0, std::ios::beg);
     std::stringstream buffer;
-    buffer << logFile.rdbuf();
-    std::string logContents = buffer.str();
+    buffer << file.rdbuf();
+    std::string contents = buffer.str();
 
-    ASSERT_NE(std::string::npos, logContents.find(std::format("{} {}", hello, number)));
+    ASSERT_NE(std::string::npos, contents.find(std::format("{} {}", hello, number)));
 }
 
 TEST_F(ThreadPoolTests, SingleTaskExecutionTestWithOneThread) {
@@ -34,11 +35,11 @@ TEST_F(ThreadPoolTests, ConcurrentTaskExecutionTest) {
     }
     sleep(1);
     for (int i{}; i < numberTimes; i++) {
-        logFile.seekg(0, std::ios::beg);
+        file.seekg(0, std::ios::beg);
         std::stringstream buffer;
-        buffer << logFile.rdbuf();
-        std::string logContents = buffer.str();
-        ASSERT_NE(std::string::npos, logContents.find(std::format("{} {}", hello, number)));
+        buffer << file.rdbuf();
+        std::string contents = buffer.str();
+        ASSERT_NE(std::string::npos, contents.find(std::format("{} {}", hello, number)));
         number--;
     }
     ASSERT_EQ(count, numberTimes);

@@ -2,34 +2,35 @@
 #define KAGEBUNSHIN_THREADPOOLTESTS_H
 
 #include "../src/ThreadPool.h"
-#include <logorithm/Logger.h>
 #include <format>
 #include <fstream>
 #include <gtest/gtest.h>
 
 const std::string hello{"Hello from function"};
-
-inline void function(const int number) {
-    logger.log(std::format("{} {}", hello, number), LOGLEVEL::Info);
-}
+const std::string fileName{"test_file.txt"};
 
 class ThreadPoolTests : public ::testing::Test {
 protected:
-    void singleTaskExecutionTest(size_t numberThreads) const;
+    void singleTaskExecutionTest(size_t numberThreads);
     std::function<void()> functionWithArguments;
-    std::ifstream logFile;
+    std::fstream file;
     int number{};
     std::mutex mutex;
     void SetUp() override {
-        logFile.open(logger.getLogFileName());
-        if (!logFile.is_open()) {
-            FAIL() << "Failed to open log file: " << logger.getLogFileName();
+        file.open(fileName, std::ios::in | std::ios::out | std::ios::app);
+        if (!file.is_open()) {
+            FAIL() << "Failed to open log file: " << fileName;
         }
         functionWithArguments = [this]() { return function(number); };
     }
 
     void TearDown() override {
-        logFile.close();
+        file.close();
+        std::remove(fileName.c_str());
+    }
+
+    void function(const int n) {
+        file << std::format("{} {}\n", hello, n);
     }
 };
 
